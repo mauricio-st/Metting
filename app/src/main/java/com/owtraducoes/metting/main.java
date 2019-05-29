@@ -60,6 +60,8 @@ public class main extends AppCompatActivity {
 
     private TextView txt_tema;
 
+    private TextView txt_tema2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
