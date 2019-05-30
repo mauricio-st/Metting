@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 public class open_helper extends SQLiteOpenHelper {
 
     public open_helper(@Nullable Context context) {
-        super(context, "dados_metting", null, 2);
+        super(context, "dados_metting", null, 3);
     }
 
     @Override
@@ -23,6 +23,10 @@ public class open_helper extends SQLiteOpenHelper {
 
         if (old_version < 2) {
             db.execSQL(script_tables.getCreateTableTemas());
+        }
+
+        if (old_version < 3) {
+            db.execSQL(script_tables.getCreateTableDesignacoes());
         }
 
     }

@@ -32,7 +32,13 @@ public class tema_crud {
             resultado.moveToFirst();
 
             tema.vid_t_1tem = resultado.getString(resultado.getColumnIndexOrThrow("VID_T_1TEM"));
-
+            tema.vid_t_2tem = resultado.getString(resultado.getColumnIndexOrThrow("VID_T_2TEM"));
+            tema.vid_m_1tem = resultado.getString(resultado.getColumnIndexOrThrow("VID_M_1TEM"));
+            tema.vid_m_2tem = resultado.getString(resultado.getColumnIndexOrThrow("VID_M_2TEM"));
+            tema.vid_m_3tem = resultado.getString(resultado.getColumnIndexOrThrow("VID_M_3TEM"));
+            tema.vid_m_4tem = resultado.getString(resultado.getColumnIndexOrThrow("VID_M_4TEM"));
+            tema.vid_c_1tem = resultado.getString(resultado.getColumnIndexOrThrow("VID_C_1TEM"));
+            tema.vid_c_2tem = resultado.getString(resultado.getColumnIndexOrThrow("VID_C_2TEM"));
         }
 
         return tema;
@@ -128,5 +134,6 @@ public class tema_crud {
         return resultado.getInt(resultado.getColumnIndexOrThrow("TOTAL"));
 
     }
+
 
 }

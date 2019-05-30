@@ -1,0 +1,149 @@
+package com.owtraducoes.metting.bd_access.bd_crud;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.owtraducoes.metting.bd_access.bd_class.designacao_class;
+
+public class designacao_crud {
+
+    SQLiteDatabase conexao_bd;
+
+    public designacao_crud(SQLiteDatabase conexao) {
+        conexao_bd = conexao;
+    }
+
+    public void insere_designacao(designacao_class designacao) {
+
+        ContentValues contentvalues = new ContentValues();
+
+        //contentvalues.put("VID_ID", designacao.vid_id);
+        contentvalues.put("VID_ID_SITE", designacao.vid_id_site);
+        contentvalues.put("VID_PRES", designacao.vid_pres);
+        contentvalues.put("VID_ORACAOINICIO", designacao.vid_oracaoinicio);
+        contentvalues.put("VID_ORACAOFINAL", designacao.vid_oracaofinal);
+        contentvalues.put("VID_SOM", designacao.vid_som);
+        contentvalues.put("VID_VOLANT", designacao.vid_volant);
+        contentvalues.put("VID_IND1", designacao.vid_ind1);
+        contentvalues.put("VID_IND2", designacao.vid_ind2);
+        contentvalues.put("VID_T_1", designacao.vid_t_1);
+        contentvalues.put("VID_T_2", designacao.vid_t_2);
+        contentvalues.put("VID_T_LEITA", designacao.vid_t_leita);
+        contentvalues.put("VID_T_LEAPT", designacao.vid_t_leapt);
+        contentvalues.put("VID_T_LEITB", designacao.vid_t_leitb);
+        contentvalues.put("VID_T_LEBPT", designacao.vid_t_lebpt);
+        contentvalues.put("VID_M_11A", designacao.vid_m_11a);
+        contentvalues.put("VID_M_1APT", designacao.vid_m_1apt);
+        contentvalues.put("VID_M_12A", designacao.vid_m_12a);
+        contentvalues.put("VID_M_11B", designacao.vid_m_11b);
+        contentvalues.put("VID_M_1BPT", designacao.vid_m_1bpt);
+        contentvalues.put("VID_M_12B", designacao.vid_m_12b);
+        contentvalues.put("VID_M_21A", designacao.vid_m_21a);
+        contentvalues.put("VID_M_2APT", designacao.vid_m_2apt);
+        contentvalues.put("VID_M_22A", designacao.vid_m_22a);
+        contentvalues.put("VID_M_21B", designacao.vid_m_21b);
+        contentvalues.put("VID_M_2BPT", designacao.vid_m_2bpt);
+        contentvalues.put("VID_M_22B", designacao.vid_m_22b);
+        contentvalues.put("VID_M_31A", designacao.vid_m_31a);
+        contentvalues.put("VID_M_3APT", designacao.vid_m_3apt);
+        contentvalues.put("VID_M_32A", designacao.vid_m_32a);
+        contentvalues.put("VID_M_31B", designacao.vid_m_31b);
+        contentvalues.put("VID_M_3BPT", designacao.vid_m_3bpt);
+        contentvalues.put("VID_M_32B", designacao.vid_m_32b);
+        contentvalues.put("VID_M_41A", designacao.vid_m_41a);
+        contentvalues.put("VID_M_4APT", designacao.vid_m_4apt);
+        contentvalues.put("VID_M_42A", designacao.vid_m_42a);
+        contentvalues.put("VID_M_41B", designacao.vid_m_41b);
+        contentvalues.put("VID_M_4BPT", designacao.vid_m_4bpt);
+        contentvalues.put("VID_M_42B", designacao.vid_m_42b);
+        contentvalues.put("VID_C_1", designacao.vid_c_1);
+        contentvalues.put("VID_C_2", designacao.vid_c_2);
+        contentvalues.put("VID_C_3", designacao.vid_c_3);
+        contentvalues.put("VID_DIR", designacao.vid_dir);
+        contentvalues.put("VID_LEIT", designacao.vid_leit);
+        contentvalues.put("VID_CONG", designacao.vid_cong);
+        contentvalues.put("VID_ESPECIAL", designacao.vid_especial);
+        contentvalues.put("VID_BUSCA", designacao.vid_busca);
+
+        conexao_bd.insert("MEIOSEMANA", null, contentvalues);
+
+    }
+
+    public void altera_designacao(designacao_class designacao) {
+
+        ContentValues contentvalues = new ContentValues();
+
+        //contentvalues.put("VID_ID", designacao.vid_id);
+        //contentvalues.put("VID_ID_SITE", designacao.vid_id_site);
+        contentvalues.put("VID_PRES", designacao.vid_pres);
+        contentvalues.put("VID_ORACAOINICIO", designacao.vid_oracaoinicio);
+        contentvalues.put("VID_ORACAOFINAL", designacao.vid_oracaofinal);
+        contentvalues.put("VID_SOM", designacao.vid_som);
+        contentvalues.put("VID_VOLANT", designacao.vid_volant);
+        contentvalues.put("VID_IND1", designacao.vid_ind1);
+        contentvalues.put("VID_IND2", designacao.vid_ind2);
+        contentvalues.put("VID_T_1", designacao.vid_t_1);
+        contentvalues.put("VID_T_2", designacao.vid_t_2);
+        contentvalues.put("VID_T_LEITA", designacao.vid_t_leita);
+        contentvalues.put("VID_T_LEAPT", designacao.vid_t_leapt);
+        contentvalues.put("VID_T_LEITB", designacao.vid_t_leitb);
+        contentvalues.put("VID_T_LEBPT", designacao.vid_t_lebpt);
+        contentvalues.put("VID_M_11A", designacao.vid_m_11a);
+        contentvalues.put("VID_M_1APT", designacao.vid_m_1apt);
+        contentvalues.put("VID_M_12A", designacao.vid_m_12a);
+        contentvalues.put("VID_M_11B", designacao.vid_m_11b);
+        contentvalues.put("VID_M_1BPT", designacao.vid_m_1bpt);
+        contentvalues.put("VID_M_12B", designacao.vid_m_12b);
+        contentvalues.put("VID_M_21A", designacao.vid_m_21a);
+        contentvalues.put("VID_M_2APT", designacao.vid_m_2apt);
+        contentvalues.put("VID_M_22A", designacao.vid_m_22a);
+        contentvalues.put("VID_M_21B", designacao.vid_m_21b);
+        contentvalues.put("VID_M_2BPT", designacao.vid_m_2bpt);
+        contentvalues.put("VID_M_22B", designacao.vid_m_22b);
+        contentvalues.put("VID_M_31A", designacao.vid_m_31a);
+        contentvalues.put("VID_M_3APT", designacao.vid_m_3apt);
+        contentvalues.put("VID_M_32A", designacao.vid_m_32a);
+        contentvalues.put("VID_M_31B", designacao.vid_m_31b);
+        contentvalues.put("VID_M_3BPT", designacao.vid_m_3bpt);
+        contentvalues.put("VID_M_32B", designacao.vid_m_32b);
+        contentvalues.put("VID_M_41A", designacao.vid_m_41a);
+        contentvalues.put("VID_M_4APT", designacao.vid_m_4apt);
+        contentvalues.put("VID_M_42A", designacao.vid_m_42a);
+        contentvalues.put("VID_M_41B", designacao.vid_m_41b);
+        contentvalues.put("VID_M_4BPT", designacao.vid_m_4bpt);
+        contentvalues.put("VID_M_42B", designacao.vid_m_42b);
+        contentvalues.put("VID_C_1", designacao.vid_c_1);
+        contentvalues.put("VID_C_2", designacao.vid_c_2);
+        contentvalues.put("VID_C_3", designacao.vid_c_3);
+        contentvalues.put("VID_DIR", designacao.vid_dir);
+        contentvalues.put("VID_LEIT", designacao.vid_leit);
+        contentvalues.put("VID_CONG", designacao.vid_cong);
+        contentvalues.put("VID_ESPECIAL", designacao.vid_especial);
+        contentvalues.put("VID_BUSCA", designacao.vid_busca);
+
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(designacao.vid_id_site);
+
+        conexao_bd.update("MEIOSEMANA", contentvalues, "VID_ID_SITE = ?", parametros);
+
+    }
+
+    public int designacao_count(int id_site) {
+
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("SELECT COUNT(VID_ID) AS TOTAL FROM MEIOSEMANA WHERE VID_ID_SITE = ?");
+
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(id_site);
+
+        Cursor resultado = conexao_bd.rawQuery(sql.toString(), parametros);
+
+        resultado.moveToFirst();
+
+        return resultado.getInt(resultado.getColumnIndexOrThrow("TOTAL"));
+
+    }
+
+}

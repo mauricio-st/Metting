@@ -1,9 +1,7 @@
 package com.owtraducoes.metting;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -11,8 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,8 +19,10 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.owtraducoes.metting.bd_access.bd_class.designacao_class;
 import com.owtraducoes.metting.bd_access.bd_class.matriculado_class;
 import com.owtraducoes.metting.bd_access.bd_class.tema_class;
+import com.owtraducoes.metting.bd_access.bd_crud.designacao_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.matriculado_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.tema_crud;
 import com.owtraducoes.metting.bd_estrutura.open_helper;
@@ -53,14 +51,21 @@ public class main extends AppCompatActivity {
 
     private matriculado_crud crud_matriculado;
     private tema_crud crud_tema;
+    private designacao_crud crud_designacao;
 
     private ProgressDialog dialog;
 
     private LinearLayout ly_main;
 
-    private TextView txt_tema;
-
-    private TextView txt_tema2;
+    private TextView txt_tema_t1;
+    private TextView txt_tema_t2;
+    private TextView txt_tema_m1;
+    private TextView txt_tema_m2;
+    private TextView txt_tema_m3;
+    private TextView txt_tema_m4;
+    private TextView txt_tema_c1;
+    private TextView txt_tema_c2;
+    private TextView txt_tema_c3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +76,29 @@ public class main extends AppCompatActivity {
 
         ly_main = findViewById(R.id.ly_main);
 
-        txt_tema = findViewById(R.id.txt_tema);
+        txt_tema_t1 = findViewById(R.id.txt_tema_t1);
+        txt_tema_t2 = findViewById(R.id.txt_tema_t2);
+        txt_tema_m1 = findViewById(R.id.txt_tema_m1);
+        txt_tema_m2 = findViewById(R.id.txt_tema_m2);
+        txt_tema_m3 = findViewById(R.id.txt_tema_m3);
+        txt_tema_m4 = findViewById(R.id.txt_tema_m4);
+        txt_tema_c1 = findViewById(R.id.txt_tema_c1);
+        txt_tema_c2 = findViewById(R.id.txt_tema_c2);
+        txt_tema_c3 = findViewById(R.id.txt_tema_c3);
 
         criarconexao();
 
         tema_class tema = crud_tema.buscar("2019-05-27");
 
-        txt_tema.setText(tema.vid_t_1tem);
+        txt_tema_t1.setText(tema.vid_t_1tem);
+        txt_tema_t2.setText(tema.vid_t_2tem);
+        txt_tema_m1.setText(tema.vid_m_1tem);
+        txt_tema_m2.setText(tema.vid_m_2tem);
+        txt_tema_m3.setText(tema.vid_m_3tem);
+        txt_tema_m4.setText(tema.vid_m_4tem);
+        txt_tema_c1.setText(tema.vid_c_1tem);
+        txt_tema_c2.setText(tema.vid_c_2tem);
+        //txt_tema_c3.setText(tema.vid_t_1tem);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +137,9 @@ public class main extends AppCompatActivity {
 
                 //new json_matriculados().execute("http://m.owltraducoes.com/jw/json/registered.php");
 
-                new json_temas().execute("http://m.owltraducoes.com/jw/json/week_theme.php");
+                //new json_temas().execute("http://m.owltraducoes.com/jw/json/week_theme.php");
+
+                new json_designacoes().execute("http://m.owltraducoes.com/jw/json/week_name.php");
 
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -158,6 +181,7 @@ public class main extends AppCompatActivity {
 
             crud_matriculado = new matriculado_crud(conexao_bd);
             crud_tema = new tema_crud(conexao_bd);
+            crud_designacao = new designacao_crud(conexao_bd);
 
             Snackbar.make(ly_main, "Conexão criada com sucesso!", Snackbar.LENGTH_SHORT)
                     .setAction("Ok", null).show();
@@ -477,28 +501,73 @@ public class main extends AppCompatActivity {
 
                 String finalJson = buffer.toString();
 
+                Log.d("designacoes", finalJson);
+
                 JSONObject parentObject = new JSONObject(finalJson);
-                JSONArray parentArray = parentObject.getJSONArray("matriculados");
+                JSONArray parentArray = parentObject.getJSONArray("designacoes");
 
                 StringBuffer finalBufferedData = new StringBuffer();
 
-                matriculado_class matriculado = new matriculado_class();
+                designacao_class designacao = new designacao_class();
 
                 for (int i=0; i<parentArray.length(); i++ ) {
 
                     JSONObject finalObject = parentArray.getJSONObject(i);
 
-                    matriculado.id_site  = finalObject.getInt("id");
-                    matriculado.nome     = finalObject.getString("nome");
-                    matriculado.id_grupo = finalObject.getInt("id_grupo");
-                    matriculado.cong     = finalObject.getInt("cong");
+                    //designacao.vid_id           = finalObject.getInt("id");
+                    designacao.vid_id_site      = finalObject.getInt("vid_cod");
+                    designacao.vid_pres         = finalObject.getInt("vid_pres");
+                    designacao.vid_oracaoinicio = finalObject.getInt("vid_oracaoinicio");
+                    designacao.vid_oracaofinal  = finalObject.getInt("vid_oracaofinal");
+                    designacao.vid_som          = finalObject.getInt("vid_som");
+                    designacao.vid_volant       = finalObject.getInt("vid_volant");
+                    designacao.vid_ind1         = finalObject.getInt("vid_ind1");
+                    designacao.vid_ind2         = finalObject.getInt("vid_ind2");
+                    designacao.vid_t_1          = finalObject.getInt("vid_t_1");
+                    designacao.vid_t_2          = finalObject.getInt("vid_t_2");
+                    designacao.vid_t_leita      = finalObject.getInt("vid_t_leita");
+                    designacao.vid_t_leapt      = finalObject.getInt("vid_t_leapt");
+                    designacao.vid_t_leitb      = finalObject.getInt("vid_t_leitb");
+                    designacao.vid_t_lebpt      = finalObject.getInt("vid_t_lebpt");
+                    designacao.vid_m_11a        = finalObject.getInt("vid_m_11a");
+                    designacao.vid_m_1apt       = finalObject.getInt("vid_m_1apt");
+                    designacao.vid_m_12a        = finalObject.getInt("vid_m_12a");
+                    designacao.vid_m_11b        = finalObject.getInt("vid_m_11b");
+                    designacao.vid_m_1bpt       = finalObject.getInt("vid_m_1bpt");
+                    designacao.vid_m_12b        = finalObject.getInt("vid_m_12b");
+                    designacao.vid_m_21a        = finalObject.getInt("vid_m_21a");
+                    designacao.vid_m_2apt       = finalObject.getInt("vid_m_2apt");
+                    designacao.vid_m_22a        = finalObject.getInt("vid_m_22a");
+                    designacao.vid_m_21b        = finalObject.getInt("vid_m_21b");
+                    designacao.vid_m_2bpt       = finalObject.getInt("vid_m_2bpt");
+                    designacao.vid_m_22b        = finalObject.getInt("vid_m_22b");
+                    designacao.vid_m_31a        = finalObject.getInt("vid_m_31a");
+                    designacao.vid_m_3apt       = finalObject.getInt("vid_m_3apt");
+                    designacao.vid_m_32a        = finalObject.getInt("vid_m_32a");
+                    designacao.vid_m_31b        = finalObject.getInt("vid_m_31b");
+                    designacao.vid_m_3bpt       = finalObject.getInt("vid_m_3bpt");
+                    designacao.vid_m_32b        = finalObject.getInt("vid_m_32b");
+                    designacao.vid_m_41a        = finalObject.getInt("vid_m_41a");
+                    designacao.vid_m_4apt       = finalObject.getInt("vid_m_4apt");
+                    designacao.vid_m_42a        = finalObject.getInt("vid_m_42a");
+                    designacao.vid_m_41b        = finalObject.getInt("vid_m_41b");
+                    designacao.vid_m_4bpt       = finalObject.getInt("vid_m_4bpt");
+                    designacao.vid_m_42b        = finalObject.getInt("vid_m_42b");
+                    designacao.vid_c_1          = finalObject.getInt("vid_c_1");
+                    designacao.vid_c_2          = finalObject.getInt("vid_c_2");
+                    designacao.vid_c_3          = finalObject.getInt("vid_c_3");
+                    designacao.vid_dir          = finalObject.getInt("vid_dir");
+                    designacao.vid_leit         = finalObject.getInt("vid_leit");
+                    designacao.vid_cong         = finalObject.getString("vid_cong");
+                    designacao.vid_especial     = finalObject.getInt("vid_especial");
+                    designacao.vid_busca        = finalObject.getString("vid_busca");
 
-                    Log.d("matriculados", matriculado.nome);
+                    Log.d("designacoes", designacao.vid_busca);
 
-                    if (crud_matriculado.matriculado_count(matriculado.id_site) > 0) {
-                        crud_matriculado.altera_matriculdo(matriculado);
+                    if (crud_designacao.designacao_count(designacao.vid_id_site) > 0) {
+                        crud_designacao.altera_designacao(designacao);
                     } else {
-                        crud_matriculado.insere_matriculado(matriculado);
+                        crud_designacao.insere_designacao(designacao);
                     }
 
                 }
