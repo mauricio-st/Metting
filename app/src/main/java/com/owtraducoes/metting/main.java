@@ -90,6 +90,8 @@ public class main extends AppCompatActivity {
 
         tema_class tema = crud_tema.buscar("2019-05-27");
 
+
+
         txt_tema_t1.setText(tema.vid_t_1tem);
         txt_tema_t2.setText(tema.vid_t_2tem);
         txt_tema_m1.setText(tema.vid_m_1tem);
