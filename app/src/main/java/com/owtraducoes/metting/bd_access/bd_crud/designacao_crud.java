@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.owtraducoes.metting.bd_access.bd_class.designacao_class;
+import com.owtraducoes.metting.bd_access.bd_class.meiosemana_class;
 
 public class designacao_crud {
 
@@ -12,6 +13,35 @@ public class designacao_crud {
 
     public designacao_crud(SQLiteDatabase conexao) {
         conexao_bd = conexao;
+    }
+
+    public meiosemana_class buscar(String dt_designacao) {
+
+        meiosemana_class meiosemana = new meiosemana_class();
+
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("SELECT  " );
+        sql.append(" (SELECT NOME FROM MATRICULADO WHERE ID_SITE = VID_ORACAOINICIO) AS VID_ORACAOINICIO, " );
+        sql.append(" (SELECT NOME FROM MATRICULADO WHERE ID_SITE = VID_ORACAOFINAL)  AS VID_ORACAOFINAL " );
+        sql.append("FROM MEIOSEMANA AS M WHERE VID_BUSCA = ?");
+
+        String[] parametros = new String[1];
+        parametros[0] = dt_designacao;
+
+        Cursor resultado = conexao_bd.rawQuery(sql.toString(), parametros);
+
+        if (resultado.getCount() > 0) {
+
+            resultado.moveToFirst();
+
+            meiosemana.oracao1 = resultado.getString(resultado.getColumnIndexOrThrow("VID_ORACAOINICIO"));
+            meiosemana.oracao2 = resultado.getString(resultado.getColumnIndexOrThrow("VID_ORACAOFINAL"));
+
+        }
+
+        return meiosemana;
+
     }
 
     public void insere_designacao(designacao_class designacao) {

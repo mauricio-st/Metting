@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.owtraducoes.metting.bd_access.bd_class.designacao_class;
 import com.owtraducoes.metting.bd_access.bd_class.matriculado_class;
+import com.owtraducoes.metting.bd_access.bd_class.meiosemana_class;
 import com.owtraducoes.metting.bd_access.bd_class.tema_class;
 import com.owtraducoes.metting.bd_access.bd_crud.designacao_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.matriculado_crud;
@@ -57,6 +58,7 @@ public class main extends AppCompatActivity {
 
     private LinearLayout ly_main;
 
+    private TextView txt_oracao1;
     private TextView txt_tema_t1;
     private TextView txt_tema_t2;
     private TextView txt_tema_m1;
@@ -66,6 +68,7 @@ public class main extends AppCompatActivity {
     private TextView txt_tema_c1;
     private TextView txt_tema_c2;
     private TextView txt_tema_c3;
+    private TextView txt_oracao2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,7 @@ public class main extends AppCompatActivity {
 
         ly_main = findViewById(R.id.ly_main);
 
+        txt_oracao1 = findViewById(R.id.txt_oracao1);
         txt_tema_t1 = findViewById(R.id.txt_tema_t1);
         txt_tema_t2 = findViewById(R.id.txt_tema_t2);
         txt_tema_m1 = findViewById(R.id.txt_tema_m1);
@@ -85,13 +89,14 @@ public class main extends AppCompatActivity {
         txt_tema_c1 = findViewById(R.id.txt_tema_c1);
         txt_tema_c2 = findViewById(R.id.txt_tema_c2);
         txt_tema_c3 = findViewById(R.id.txt_tema_c3);
+        txt_oracao2 = findViewById(R.id.txt_oracao2);
 
         criarconexao();
 
         tema_class tema = crud_tema.buscar("2019-05-27");
+        meiosemana_class meiosemana = crud_designacao.buscar("2019-05-27");
 
-
-
+        txt_oracao1.setText(meiosemana.oracao1);
         txt_tema_t1.setText(tema.vid_t_1tem);
         txt_tema_t2.setText(tema.vid_t_2tem);
         txt_tema_m1.setText(tema.vid_m_1tem);
@@ -101,6 +106,7 @@ public class main extends AppCompatActivity {
         txt_tema_c1.setText(tema.vid_c_1tem);
         txt_tema_c2.setText(tema.vid_c_2tem);
         //txt_tema_c3.setText(tema.vid_t_1tem);
+        txt_oracao2.setText(meiosemana.oracao2);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
