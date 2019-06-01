@@ -104,9 +104,46 @@ public class script_tables {
         sql.append(" VID_C_3          INTEGER DEFAULT 0, ");
         sql.append(" VID_DIR          INTEGER DEFAULT 0, ");
         sql.append(" VID_LEIT         INTEGER DEFAULT 0, ");
-        sql.append(" VID_CONG         VARCHAR(200), ");
+        sql.append(" VID_CONG         INTEGER DEFAULT 0, ");
         sql.append(" VID_ESPECIAL     INTEGER DEFAULT 0, ");
         sql.append(" VID_BUSCA        DATE ");
+        sql.append(");");
+
+        return sql.toString();
+
+    }
+
+    public static String getCreateTablePrivilegios() {
+
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("CREATE TABLE IF NOT EXISTS PRIVILEGIO (");
+        sql.append("PRI_ID       INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,");
+        sql.append("PRI_ID_SITE  INTEGER DEFAULT 0, ");
+        sql.append("PRI_VIDSOM   INTEGER DEFAULT 0, ");
+        sql.append("PRI_VIDVID   INTEGER DEFAULT 0, ");
+        sql.append("PRI_VIDVOL   INTEGER DEFAULT 0, ");
+        sql.append("PRI_VIDIND1  INTEGER DEFAULT 0, ");
+        sql.append("PRI_VIDIND2  INTEGER DEFAULT 0, ");
+        sql.append("PRI_VIDLIMP  INTEGER DEFAULT 0, ");
+        sql.append("PRI_CAMP     INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISSOM   INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISVID   INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISPRES  INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISNUM   INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISORA   VARCHAR(100), ");
+        sql.append("PRI_DISNCONG VARCHAR(100), ");
+        sql.append("PRI_DISNCID  VARCHAR(100), ");
+        sql.append("PRI_DISVOL   INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISIND1  INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISIND2  INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISANF   INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISLEIT  INTEGER DEFAULT 0, ");
+        sql.append("PRI_DISLIMP  INTEGER DEFAULT 0, ");
+        sql.append("PRI_ESPEC    INTEGER DEFAULT 0, ");
+        sql.append("PRI_CONG     INTEGER DEFAULT 0, ");
+        sql.append("PRI_UPDT     DATETIME, ");
+        sql.append("PRI_BUSCA    DATE ");
         sql.append(");");
 
         return sql.toString();

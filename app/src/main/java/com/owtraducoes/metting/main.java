@@ -22,9 +22,12 @@ import android.widget.TextView;
 import com.owtraducoes.metting.bd_access.bd_class.designacao_class;
 import com.owtraducoes.metting.bd_access.bd_class.matriculado_class;
 import com.owtraducoes.metting.bd_access.bd_class.meiosemana_class;
+import com.owtraducoes.metting.bd_access.bd_class.privilegio_class;
 import com.owtraducoes.metting.bd_access.bd_class.tema_class;
 import com.owtraducoes.metting.bd_access.bd_crud.designacao_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.matriculado_crud;
+import com.owtraducoes.metting.bd_access.bd_crud.privilegio_crud;
+import com.owtraducoes.metting.bd_access.bd_crud.reuniao_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.tema_crud;
 import com.owtraducoes.metting.bd_estrutura.open_helper;
 
@@ -53,6 +56,8 @@ public class main extends AppCompatActivity {
     private matriculado_crud crud_matriculado;
     private tema_crud crud_tema;
     private designacao_crud crud_designacao;
+    private privilegio_crud crud_privilegio;
+    private reuniao_crud crud_reuniao;
 
     private ProgressDialog dialog;
 
@@ -70,6 +75,13 @@ public class main extends AppCompatActivity {
     private TextView txt_tema_c3;
     private TextView txt_oracao2;
 
+    private TextView txt_som;
+    private TextView txt_video;
+    private TextView txt_microfone;
+    private TextView txt_indicador1;
+    private TextView txt_indicador2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +91,8 @@ public class main extends AppCompatActivity {
 
         ly_main = findViewById(R.id.ly_main);
 
-        txt_oracao1 = findViewById(R.id.txt_oracao1);
+
+        //temas
         txt_tema_t1 = findViewById(R.id.txt_tema_t1);
         txt_tema_t2 = findViewById(R.id.txt_tema_t2);
         txt_tema_m1 = findViewById(R.id.txt_tema_m1);
@@ -89,24 +102,20 @@ public class main extends AppCompatActivity {
         txt_tema_c1 = findViewById(R.id.txt_tema_c1);
         txt_tema_c2 = findViewById(R.id.txt_tema_c2);
         txt_tema_c3 = findViewById(R.id.txt_tema_c3);
-        txt_oracao2 = findViewById(R.id.txt_oracao2);
+
+
+        //designações
+        txt_oracao1    = findViewById(R.id.txt_oracao1);
+        txt_som        = findViewById(R.id.txt_som);
+        txt_video      = findViewById(R.id.txt_video);
+        txt_microfone  = findViewById(R.id.txt_microfone);
+        txt_indicador1 = findViewById(R.id.txt_indicador1);
+        txt_indicador2 = findViewById(R.id.txt_indicador2);
+        txt_oracao2   = findViewById(R.id.txt_oracao2);
 
         criarconexao();
 
-        tema_class tema = crud_tema.buscar("2019-05-27");
-        meiosemana_class meiosemana = crud_designacao.buscar("2019-05-27");
-
-        txt_oracao1.setText(meiosemana.oracao1);
-        txt_tema_t1.setText(tema.vid_t_1tem);
-        txt_tema_t2.setText(tema.vid_t_2tem);
-        txt_tema_m1.setText(tema.vid_m_1tem);
-        txt_tema_m2.setText(tema.vid_m_2tem);
-        txt_tema_m3.setText(tema.vid_m_3tem);
-        txt_tema_m4.setText(tema.vid_m_4tem);
-        txt_tema_c1.setText(tema.vid_c_1tem);
-        txt_tema_c2.setText(tema.vid_c_2tem);
-        //txt_tema_c3.setText(tema.vid_t_1tem);
-        txt_oracao2.setText(meiosemana.oracao2);
+        load_meiosemana("2019-05-27");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +156,9 @@ public class main extends AppCompatActivity {
 
                 //new json_temas().execute("http://m.owltraducoes.com/jw/json/week_theme.php");
 
-                new json_designacoes().execute("http://m.owltraducoes.com/jw/json/week_name.php");
+                //new json_designacoes().execute("http://m.owltraducoes.com/jw/json/week_name.php");
+
+                new json_privilegios().execute("http://m.owltraducoes.com/jw/json/week_designation.php");
 
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -188,8 +199,10 @@ public class main extends AppCompatActivity {
             conexao_bd = bd_rules.getWritableDatabase();
 
             crud_matriculado = new matriculado_crud(conexao_bd);
-            crud_tema = new tema_crud(conexao_bd);
-            crud_designacao = new designacao_crud(conexao_bd);
+            crud_tema        = new tema_crud(conexao_bd);
+            crud_designacao  = new designacao_crud(conexao_bd);
+            crud_privilegio  = new privilegio_crud(conexao_bd);
+            crud_reuniao     = new reuniao_crud(conexao_bd);
 
             Snackbar.make(ly_main, "Conexão criada com sucesso!", Snackbar.LENGTH_SHORT)
                     .setAction("Ok", null).show();
@@ -203,6 +216,33 @@ public class main extends AppCompatActivity {
             dlg.show();
 
         }
+
+    }
+
+    private void load_meiosemana(String semana) {
+
+        //tema_class tema = crud_tema.buscar(semana);
+        meiosemana_class meiosemana = crud_reuniao.buscar(semana);
+
+        txt_tema_t1.setText(meiosemana.vid_t_1tem);
+        txt_tema_t2.setText(meiosemana.vid_t_2tem);
+        txt_tema_m1.setText(meiosemana.vid_m_1tem);
+        txt_tema_m2.setText(meiosemana.vid_m_2tem);
+        txt_tema_m3.setText(meiosemana.vid_m_3tem);
+        txt_tema_m4.setText(meiosemana.vid_m_4tem);
+        txt_tema_c1.setText(meiosemana.vid_c_1tem);
+        txt_tema_c2.setText(meiosemana.vid_c_2tem);
+        //txt_tema_c3.setText(tema.vid_t_1tem);
+
+        /*
+        txt_oracao1.setText(meiosemana.oracaoinicio);
+        txt_som.setText(meiosemana.som);
+        //txt_video.setText(meiosemana.video);
+        txt_microfone.setText(meiosemana.volante);
+        txt_indicador1.setText(meiosemana.indicador1);
+        txt_indicador2.setText(meiosemana.indicador2);
+        txt_oracao2.setText(meiosemana.oracaofinal);
+        */
 
     }
 
@@ -671,27 +711,47 @@ public class main extends AppCompatActivity {
                 String finalJson = buffer.toString();
 
                 JSONObject parentObject = new JSONObject(finalJson);
-                JSONArray parentArray = parentObject.getJSONArray("matriculados");
+                JSONArray parentArray = parentObject.getJSONArray("privilegios");
 
                 StringBuffer finalBufferedData = new StringBuffer();
 
-                matriculado_class matriculado = new matriculado_class();
+                privilegio_class privilegio = new privilegio_class();
 
                 for (int i=0; i<parentArray.length(); i++ ) {
 
                     JSONObject finalObject = parentArray.getJSONObject(i);
 
-                    matriculado.id_site  = finalObject.getInt("id");
-                    matriculado.nome     = finalObject.getString("nome");
-                    matriculado.id_grupo = finalObject.getInt("id_grupo");
-                    matriculado.cong     = finalObject.getInt("cong");
+                    //privilegio.pri_id       = finalObject.getInt("");
+                    privilegio.pri_id_site  = finalObject.getInt("pri_cod");
+                    privilegio.pri_vidsom   = finalObject.getInt("pri_vidsom");
+                    privilegio.pri_vidvid   = finalObject.getInt("pri_vidvid");
+                    privilegio.pri_vidvol   = finalObject.getInt("pri_vidvol");
+                    privilegio.pri_vidind1  = finalObject.getInt("pri_vidind1");
+                    privilegio.pri_vidind2  = finalObject.getInt("pri_vidind2");
+                    privilegio.pri_vidlimp  = finalObject.getInt("pri_vidlimp");
+                    privilegio.pri_camp     = finalObject.getInt("pri_camp");
+                    privilegio.pri_dissom   = finalObject.getInt("pri_dissom");
+                    privilegio.pri_disvid   = finalObject.getInt("pri_disvid");
+                    privilegio.pri_dispres  = finalObject.getInt("pri_dispres");
+                    privilegio.pri_disnum   = finalObject.getInt("pri_disnum");
+                    privilegio.pri_disora   = finalObject.getString("pri_disora");
+                    privilegio.pri_disncong = finalObject.getString("pri_disncong");
+                    privilegio.pri_disncid  = finalObject.getString("pri_disncid");
+                    privilegio.pri_disvol   = finalObject.getInt("pri_disvol");
+                    privilegio.pri_disind1  = finalObject.getInt("pri_disind1");
+                    privilegio.pri_disind2  = finalObject.getInt("pri_disind2");
+                    privilegio.pri_disanf   = finalObject.getInt("pri_disanf");
+                    privilegio.pri_disleit  = finalObject.getInt("pri_disleit");
+                    privilegio.pri_dislimp  = finalObject.getInt("pri_dislimp");
+                    privilegio.pri_espec    = finalObject.getInt("pri_espec");
+                    privilegio.pri_cong     = finalObject.getInt("pri_cong");
+                    privilegio.pri_updt     = finalObject.getString("pri_updt");
+                    privilegio.pri_busca    = finalObject.getString("pri_busca");
 
-                    Log.d("matriculados", matriculado.nome);
-
-                    if (crud_matriculado.matriculado_count(matriculado.id_site) > 0) {
-                        crud_matriculado.altera_matriculdo(matriculado);
+                    if (crud_privilegio.privilegio_count(privilegio.pri_id_site) > 0) {
+                        crud_privilegio.altera_privilegio(privilegio);
                     } else {
-                        crud_matriculado.insere_matriculado(matriculado);
+                        crud_privilegio.insere_privilegio(privilegio);
                     }
 
                 }
