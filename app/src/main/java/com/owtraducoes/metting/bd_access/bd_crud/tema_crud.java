@@ -114,7 +114,7 @@ public class tema_crud {
         String[] parametros = new String[1];
         parametros[0] = String.valueOf(tema.vid_id_site);
 
-        conexao_bd.update("TEMA", contentvalues, "ID = ?", parametros);
+        conexao_bd.update("TEMA", contentvalues, "VID_ID_SITE = ?", parametros);
 
     }
 

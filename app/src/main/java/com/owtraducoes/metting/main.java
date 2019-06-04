@@ -63,7 +63,7 @@ public class main extends AppCompatActivity {
 
     private LinearLayout ly_main;
 
-    private TextView txt_oracao1;
+
     private TextView txt_tema_t1;
     private TextView txt_tema_t2;
     private TextView txt_tema_m1;
@@ -73,6 +73,34 @@ public class main extends AppCompatActivity {
     private TextView txt_tema_c1;
     private TextView txt_tema_c2;
     private TextView txt_tema_c3;
+
+
+    private TextView txt_oracao1;
+    private TextView txt_nome_t1;
+    private TextView txt_nome_t2;
+    private TextView txt_nome_la;
+    private TextView txt_nome_lb;
+    private TextView txt_nome_m11a;
+    private TextView txt_nome_m12a;
+    private TextView txt_nome_m21a;
+    private TextView txt_nome_m22a;
+    private TextView txt_nome_m31a;
+    private TextView txt_nome_m32a;
+    private TextView txt_nome_m41a;
+    private TextView txt_nome_m42a;
+    private TextView txt_nome_m11b;
+    private TextView txt_nome_m12b;
+    private TextView txt_nome_m21b;
+    private TextView txt_nome_m22b;
+    private TextView txt_nome_m31b;
+    private TextView txt_nome_m32b;
+    private TextView txt_nome_m41b;
+    private TextView txt_nome_m42b;
+    private TextView txt_nome_c1;
+    private TextView txt_nome_c2;
+    private TextView txt_nome_c3;
+    private TextView txt_estudodir;
+    private TextView txt_estudoleit;
     private TextView txt_oracao2;
 
     private TextView txt_som;
@@ -80,6 +108,7 @@ public class main extends AppCompatActivity {
     private TextView txt_microfone;
     private TextView txt_indicador1;
     private TextView txt_indicador2;
+    private TextView txt_limpeza;
 
 
     @Override
@@ -103,19 +132,46 @@ public class main extends AppCompatActivity {
         txt_tema_c2 = findViewById(R.id.txt_tema_c2);
         txt_tema_c3 = findViewById(R.id.txt_tema_c3);
 
-
         //designações
         txt_oracao1    = findViewById(R.id.txt_oracao1);
+        txt_nome_t1    = findViewById(R.id.txt_nome_t1);
+        txt_nome_t2    = findViewById(R.id.txt_nome_t2);
+        txt_nome_la    = findViewById(R.id.txt_nome_la);
+        //txt_nome_lb   = findViewById(R.id.txt_nome_lb);
+        txt_nome_m11a  = findViewById(R.id.txt_nome_m11a);
+        txt_nome_m12a  = findViewById(R.id.txt_nome_m12a);
+        txt_nome_m21a  = findViewById(R.id.txt_nome_m21a);
+        txt_nome_m22a  = findViewById(R.id.txt_nome_m22a);
+        txt_nome_m31a  = findViewById(R.id.txt_nome_m31a);
+        txt_nome_m32a  = findViewById(R.id.txt_nome_m32a);
+        txt_nome_m41a  = findViewById(R.id.txt_nome_m41a);
+        txt_nome_m42a  = findViewById(R.id.txt_nome_m42a);
+        //txt_nome_m11b = findViewById(R.id.txt_nome_m11b);
+        //txt_nome_m12b = findViewById(R.id.txt_nome_m12b);
+        //txt_nome_m21b = findViewById(R.id.txt_nome_m21b);
+        //txt_nome_m22b = findViewById(R.id.txt_nome_m22b);
+        //txt_nome_m31b = findViewById(R.id.txt_nome_m31b);
+        //txt_nome_m32b = findViewById(R.id.txt_nome_m32b);
+        //txt_nome_m41b = findViewById(R.id.txt_nome_m41b);
+        //txt_nome_m42b = findViewById(R.id.txt_nome_m42b);
+        txt_nome_c1    = findViewById(R.id.txt_nome_c1);
+        txt_nome_c2    = findViewById(R.id.txt_nome_c2);
+        txt_nome_c3    = findViewById(R.id.txt_nome_c3);
+        txt_estudodir  = findViewById(R.id.txt_estudodir);
+        txt_estudoleit = findViewById(R.id.txt_estudoleit);
+        txt_oracao2    = findViewById(R.id.txt_oracao2);
+
+        //privilegios
         txt_som        = findViewById(R.id.txt_som);
         txt_video      = findViewById(R.id.txt_video);
         txt_microfone  = findViewById(R.id.txt_microfone);
         txt_indicador1 = findViewById(R.id.txt_indicador1);
         txt_indicador2 = findViewById(R.id.txt_indicador2);
-        txt_oracao2   = findViewById(R.id.txt_oracao2);
+        txt_limpeza    = findViewById(R.id.txt_limpeza);
 
         criarconexao();
 
-        load_meiosemana("2019-05-27");
+        //load_meiosemana("2019-05-27");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -152,13 +208,7 @@ public class main extends AppCompatActivity {
                 dialog.setMessage("Carregando. Aguarde por favor ...");
                 dialog.show();
 
-                //new json_matriculados().execute("http://m.owltraducoes.com/jw/json/registered.php");
-
-                //new json_temas().execute("http://m.owltraducoes.com/jw/json/week_theme.php");
-
-                //new json_designacoes().execute("http://m.owltraducoes.com/jw/json/week_name.php");
-
-                new json_privilegios().execute("http://m.owltraducoes.com/jw/json/week_designation.php");
+                fila_json(0);
 
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -175,16 +225,20 @@ public class main extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent it = new Intent(main.this, matriculados_act.class);
-            startActivity(it);
-            return true;
+        switch (id) {
+
+            case R.id.action_week:
+                load_meiosemana("2019-06-03");
+                break;
+
+            case R.id.action_settings:
+                Intent it = new Intent(main.this, matriculados_act.class);
+                startActivity(it);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -230,23 +284,138 @@ public class main extends AppCompatActivity {
         txt_tema_m2.setText(meiosemana.vid_m_2tem);
         txt_tema_m3.setText(meiosemana.vid_m_3tem);
         txt_tema_m4.setText(meiosemana.vid_m_4tem);
-        txt_tema_c1.setText(meiosemana.vid_c_1tem);
-        txt_tema_c2.setText(meiosemana.vid_c_2tem);
-        //txt_tema_c3.setText(tema.vid_t_1tem);
+
+
+        //designações
+        txt_oracao1.setText(meiosemana.vid_oracao1);
+        txt_nome_t1.setText(meiosemana.vid_t_1);
+        txt_nome_t2.setText(meiosemana.vid_t_2);
+        txt_nome_la.setText(meiosemana.vid_t_la);
+        //txt_nome_lb.setText(meiosemana.vid_m_2tem);
+
+        if (meiosemana.vid_m_1tem.equals("")) {
+            txt_nome_m11a.setVisibility(View.GONE);
+            txt_nome_m12a.setVisibility(View.GONE);
+        } else {
+            txt_nome_m11a.setText(meiosemana.vid_m_11a);
+            txt_nome_m12a.setText(meiosemana.vid_m_12a);
+            //txt_nome_m11b.setText(meiosemana.vid_m_11b);
+            //txt_nome_m12b.setText(meiosemana.vid_m_12b);
+        }
+
+        if (meiosemana.vid_m_2tem.equals("")) {
+            txt_nome_m31a.setVisibility(View.GONE);
+            txt_nome_m32a.setVisibility(View.GONE);
+        } else {
+            txt_nome_m21a.setText(meiosemana.vid_m_21a);
+            txt_nome_m22a.setText(meiosemana.vid_m_22a);
+            //txt_nome_m21b.setText(meiosemana.vid_m_21b);
+            //txt_nome_m22b.setText(meiosemana.vid_m_22b);
+        }
+
+        if (meiosemana.vid_m_3tem.equals("")) {
+            txt_nome_m31a.setVisibility(View.GONE);
+            txt_nome_m32a.setVisibility(View.GONE);
+        } else {
+            txt_nome_m31a.setText(meiosemana.vid_m_31a);
+            txt_nome_m32a.setText(meiosemana.vid_m_32a);
+            //txt_nome_m31b.setText(meiosemana.vid_m_31b);
+            //txt_nome_m32b.setText(meiosemana.vid_m_32b);
+        }
+
+        if (meiosemana.vid_m_4tem.equals("")) {
+            txt_nome_m41a.setVisibility(View.GONE);
+            txt_nome_m42a.setVisibility(View.GONE);
+        } else {
+            txt_nome_m41a.setText(meiosemana.vid_m_41a);
+            txt_nome_m42a.setText(meiosemana.vid_m_42a);
+            //txt_nome_m41b.setText(meiosemana.vid_m_41b);
+            //txt_nome_m42b.setText(meiosemana.vid_m_42b);
+        }
+
+
+
+        if (meiosemana.vid_c_1.equals("")) {
+            txt_nome_c1.setVisibility(View.GONE);
+            txt_tema_c1.setVisibility(View.GONE);
+        } else {
+            txt_tema_c1.setText(meiosemana.vid_c_1tem);
+            txt_nome_c1.setText(meiosemana.vid_c_1);
+        }
+
+        if (meiosemana.vid_c_2.equals("")) {
+            txt_nome_c2.setVisibility(View.GONE);
+            txt_tema_c2.setVisibility(View.GONE);
+        } else {
+            txt_tema_c2.setText(meiosemana.vid_c_2tem);
+            txt_nome_c2.setText(meiosemana.vid_c_2);
+        }
 
         /*
-        txt_oracao1.setText(meiosemana.oracaoinicio);
-        txt_som.setText(meiosemana.som);
-        //txt_video.setText(meiosemana.video);
-        txt_microfone.setText(meiosemana.volante);
-        txt_indicador1.setText(meiosemana.indicador1);
-        txt_indicador2.setText(meiosemana.indicador2);
-        txt_oracao2.setText(meiosemana.oracaofinal);
+        if (meiosemana.vid_c_3.equals("")) {
+            txt_nome_c3.setVisibility(View.GONE);
+            //txt_tema_c3.setText(tema.vid_t_1tem);
+        } else {
+            //txt_tema_c2.setText(meiosemana.vid_c_3tem);
+            txt_nome_c3.setText(meiosemana.vid_c_3);
+        }
         */
+
+
+
+
+        txt_estudodir.setText(meiosemana.dirigente);
+        txt_estudoleit.setText(meiosemana.leitor);
+        txt_oracao2.setText(meiosemana.vid_oracao2);
+
+        //privilégios
+        //txt_oracao1.setText(meiosemana.vid_oracao1);
+        txt_som.setText(meiosemana.pri_vidsom);
+        txt_video.setText(meiosemana.pri_vidvid);
+        txt_microfone.setText(meiosemana.pri_vidvol);
+        txt_indicador1.setText(meiosemana.pri_vidind1);
+        txt_indicador2.setText(meiosemana.pri_vidind1);
+        txt_limpeza.setText(meiosemana.pri_vidlimp);
+        //txt_oracao2.setText(meiosemana.vid_oracao2);
+
+    }
+
+    public void fila_json(int fila_sequence) {
+
+        //0 = matriculados
+        //1 = temas
+        //2 = designacoes
+        //3 = privilegios
+
+        switch (fila_sequence) {
+
+            case 0:
+                new json_matriculados().execute("http://m.owltraducoes.com/jw/json/registered.php");
+                break;
+
+            case 1:
+                new json_temas().execute("http://m.owltraducoes.com/jw/json/week_theme.php");
+                break;
+
+            case 2:
+                new json_designacoes().execute("http://m.owltraducoes.com/jw/json/week_name.php");
+                break;
+
+            case 3:
+                new json_privilegios().execute("http://m.owltraducoes.com/jw/json/week_designation.php");
+                break;
+
+            default:
+                dialog.dismiss();
+                break;
+
+        }
 
     }
 
     public class json_matriculados extends AsyncTask<String, String, String> {
+
+        int fila_sequence = 0;
 
         @Override
         protected String doInBackground(String... params) {
@@ -356,13 +525,14 @@ public class main extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
-            dialog.dismiss();
-
+            fila_sequence++;
+            fila_json(fila_sequence);
         }
     }
 
     public class json_temas extends AsyncTask<String, String, String> {
+
+        int fila_sequence = 1;
 
         @Override
         protected String doInBackground(String... params) {
@@ -494,13 +664,14 @@ public class main extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
-            dialog.dismiss();
-
+            fila_sequence++;
+            fila_json(fila_sequence);
         }
     }
 
     public class json_designacoes extends AsyncTask<String, String, String> {
+
+        int fila_sequence = 2;
 
         @Override
         protected String doInBackground(String... params) {
@@ -519,7 +690,7 @@ public class main extends AppCompatActivity {
                         .appendQueryParameter("updt","2010-01-01");
                 String query = builder.build().getEncodedQuery();
 
-                Log.d("matriculados", query);
+                Log.d("designacoes", query);
 
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
@@ -549,8 +720,6 @@ public class main extends AppCompatActivity {
 
                 String finalJson = buffer.toString();
 
-                Log.d("designacoes", finalJson);
-
                 JSONObject parentObject = new JSONObject(finalJson);
                 JSONArray parentArray = parentObject.getJSONArray("designacoes");
 
@@ -562,53 +731,49 @@ public class main extends AppCompatActivity {
 
                     JSONObject finalObject = parentArray.getJSONObject(i);
 
-                    //designacao.vid_id           = finalObject.getInt("id");
-                    designacao.vid_id_site      = finalObject.getInt("vid_cod");
-                    designacao.vid_pres         = finalObject.getInt("vid_pres");
-                    designacao.vid_oracaoinicio = finalObject.getInt("vid_oracaoinicio");
-                    designacao.vid_oracaofinal  = finalObject.getInt("vid_oracaofinal");
-                    designacao.vid_som          = finalObject.getInt("vid_som");
-                    designacao.vid_volant       = finalObject.getInt("vid_volant");
-                    designacao.vid_ind1         = finalObject.getInt("vid_ind1");
-                    designacao.vid_ind2         = finalObject.getInt("vid_ind2");
-                    designacao.vid_t_1          = finalObject.getInt("vid_t_1");
-                    designacao.vid_t_2          = finalObject.getInt("vid_t_2");
-                    designacao.vid_t_leita      = finalObject.getInt("vid_t_leita");
-                    designacao.vid_t_leapt      = finalObject.getInt("vid_t_leapt");
-                    designacao.vid_t_leitb      = finalObject.getInt("vid_t_leitb");
-                    designacao.vid_t_lebpt      = finalObject.getInt("vid_t_lebpt");
-                    designacao.vid_m_11a        = finalObject.getInt("vid_m_11a");
-                    designacao.vid_m_1apt       = finalObject.getInt("vid_m_1apt");
-                    designacao.vid_m_12a        = finalObject.getInt("vid_m_12a");
-                    designacao.vid_m_11b        = finalObject.getInt("vid_m_11b");
-                    designacao.vid_m_1bpt       = finalObject.getInt("vid_m_1bpt");
-                    designacao.vid_m_12b        = finalObject.getInt("vid_m_12b");
-                    designacao.vid_m_21a        = finalObject.getInt("vid_m_21a");
-                    designacao.vid_m_2apt       = finalObject.getInt("vid_m_2apt");
-                    designacao.vid_m_22a        = finalObject.getInt("vid_m_22a");
-                    designacao.vid_m_21b        = finalObject.getInt("vid_m_21b");
-                    designacao.vid_m_2bpt       = finalObject.getInt("vid_m_2bpt");
-                    designacao.vid_m_22b        = finalObject.getInt("vid_m_22b");
-                    designacao.vid_m_31a        = finalObject.getInt("vid_m_31a");
-                    designacao.vid_m_3apt       = finalObject.getInt("vid_m_3apt");
-                    designacao.vid_m_32a        = finalObject.getInt("vid_m_32a");
-                    designacao.vid_m_31b        = finalObject.getInt("vid_m_31b");
-                    designacao.vid_m_3bpt       = finalObject.getInt("vid_m_3bpt");
-                    designacao.vid_m_32b        = finalObject.getInt("vid_m_32b");
-                    designacao.vid_m_41a        = finalObject.getInt("vid_m_41a");
-                    designacao.vid_m_4apt       = finalObject.getInt("vid_m_4apt");
-                    designacao.vid_m_42a        = finalObject.getInt("vid_m_42a");
-                    designacao.vid_m_41b        = finalObject.getInt("vid_m_41b");
-                    designacao.vid_m_4bpt       = finalObject.getInt("vid_m_4bpt");
-                    designacao.vid_m_42b        = finalObject.getInt("vid_m_42b");
-                    designacao.vid_c_1          = finalObject.getInt("vid_c_1");
-                    designacao.vid_c_2          = finalObject.getInt("vid_c_2");
-                    designacao.vid_c_3          = finalObject.getInt("vid_c_3");
-                    designacao.vid_dir          = finalObject.getInt("vid_dir");
-                    designacao.vid_leit         = finalObject.getInt("vid_leit");
-                    designacao.vid_cong         = finalObject.getString("vid_cong");
-                    designacao.vid_especial     = finalObject.getInt("vid_especial");
-                    designacao.vid_busca        = finalObject.getString("vid_busca");
+                    //designacao.vid_id       = finalObject.getInt("id");
+                    designacao.vid_id_site  = finalObject.getInt("vid_cod");
+                    designacao.vid_pres     = finalObject.getInt("vid_pres");
+                    designacao.vid_oracao1  = finalObject.getInt("vid_oracaoinicio");
+                    designacao.vid_oracao2  = finalObject.getInt("vid_oracaofinal");
+                    designacao.vid_t_1      = finalObject.getInt("vid_t_1");
+                    designacao.vid_t_2      = finalObject.getInt("vid_t_2");
+                    designacao.vid_t_leita  = finalObject.getInt("vid_t_leita");
+                    designacao.vid_t_leapt  = finalObject.getInt("vid_t_leapt");
+                    designacao.vid_t_leitb  = finalObject.getInt("vid_t_leitb");
+                    designacao.vid_t_lebpt  = finalObject.getInt("vid_t_lebpt");
+                    designacao.vid_m_11a    = finalObject.getInt("vid_m_11a");
+                    designacao.vid_m_1apt   = finalObject.getInt("vid_m_1apt");
+                    designacao.vid_m_12a    = finalObject.getInt("vid_m_12a");
+                    designacao.vid_m_11b    = finalObject.getInt("vid_m_11b");
+                    designacao.vid_m_1bpt   = finalObject.getInt("vid_m_1bpt");
+                    designacao.vid_m_12b    = finalObject.getInt("vid_m_12b");
+                    designacao.vid_m_21a    = finalObject.getInt("vid_m_21a");
+                    designacao.vid_m_2apt   = finalObject.getInt("vid_m_2apt");
+                    designacao.vid_m_22a    = finalObject.getInt("vid_m_22a");
+                    designacao.vid_m_21b    = finalObject.getInt("vid_m_21b");
+                    designacao.vid_m_2bpt   = finalObject.getInt("vid_m_2bpt");
+                    designacao.vid_m_22b    = finalObject.getInt("vid_m_22b");
+                    designacao.vid_m_31a    = finalObject.getInt("vid_m_31a");
+                    designacao.vid_m_3apt   = finalObject.getInt("vid_m_3apt");
+                    designacao.vid_m_32a    = finalObject.getInt("vid_m_32a");
+                    designacao.vid_m_31b    = finalObject.getInt("vid_m_31b");
+                    designacao.vid_m_3bpt   = finalObject.getInt("vid_m_3bpt");
+                    designacao.vid_m_32b    = finalObject.getInt("vid_m_32b");
+                    designacao.vid_m_41a    = finalObject.getInt("vid_m_41a");
+                    designacao.vid_m_4apt   = finalObject.getInt("vid_m_4apt");
+                    designacao.vid_m_42a    = finalObject.getInt("vid_m_42a");
+                    designacao.vid_m_41b    = finalObject.getInt("vid_m_41b");
+                    designacao.vid_m_4bpt   = finalObject.getInt("vid_m_4bpt");
+                    designacao.vid_m_42b    = finalObject.getInt("vid_m_42b");
+                    designacao.vid_c_1      = finalObject.getInt("vid_c_1");
+                    designacao.vid_c_2      = finalObject.getInt("vid_c_2");
+                    designacao.vid_c_3      = finalObject.getInt("vid_c_3");
+                    designacao.vid_dir      = finalObject.getInt("vid_dir");
+                    designacao.vid_leit     = finalObject.getInt("vid_leit");
+                    designacao.vid_cong     = finalObject.getString("vid_cong");
+                    designacao.vid_especial = finalObject.getInt("vid_especial");
+                    designacao.vid_busca    = finalObject.getString("vid_busca");
 
                     Log.d("designacoes", designacao.vid_busca);
 
@@ -654,14 +819,14 @@ public class main extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            dialog.dismiss();
-
+            fila_sequence++;
+            fila_json(fila_sequence);
         }
     }
 
     public class json_privilegios extends AsyncTask<String, String, String> {
+
+        int fila_sequence = 3;
 
         @Override
         protected String doInBackground(String... params) {
@@ -680,7 +845,7 @@ public class main extends AppCompatActivity {
                         .appendQueryParameter("updt","2010-01-01");
                 String query = builder.build().getEncodedQuery();
 
-                Log.d("matriculados", query);
+                Log.d("privilegios", query);
 
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
@@ -748,6 +913,8 @@ public class main extends AppCompatActivity {
                     privilegio.pri_updt     = finalObject.getString("pri_updt");
                     privilegio.pri_busca    = finalObject.getString("pri_busca");
 
+                    Log.d("privilegios",  privilegio.pri_busca);
+
                     if (crud_privilegio.privilegio_count(privilegio.pri_id_site) > 0) {
                         crud_privilegio.altera_privilegio(privilegio);
                     } else {
@@ -791,9 +958,8 @@ public class main extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
-            dialog.dismiss();
-
+            fila_sequence++;
+            fila_json(fila_sequence);
         }
     }
 }

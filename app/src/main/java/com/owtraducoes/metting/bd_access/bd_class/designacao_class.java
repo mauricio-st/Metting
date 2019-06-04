@@ -7,12 +7,8 @@ public class designacao_class implements Serializable {
     public int vid_id;
     public int vid_id_site;
     public int vid_pres;
-    public int vid_oracaoinicio;
-    public int vid_oracaofinal;
-    public int vid_som;
-    public int vid_volant;
-    public int vid_ind1;
-    public int vid_ind2;
+    public int vid_oracao1;
+    public int vid_oracao2;
     public int vid_t_1;
     public int vid_t_2;
     public int vid_t_leita;

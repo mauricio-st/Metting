@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.owtraducoes.metting.main">
     <item
+        android:id="@+id/action_week"
+        android:icon="@drawable/ic_calendar_white"
+        android:orderInCategory="101"
+        android:title="Item"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

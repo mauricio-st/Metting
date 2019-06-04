@@ -5,6 +5,13 @@ import java.io.Serializable;
 public class meiosemana_class implements Serializable {
 
     public String presidente;
+    public String pri_vidsom;
+    public String pri_vidvid;
+    public String pri_vidvol;
+    public String pri_vidind1;
+    public String pri_vidind2;
+    public String pri_vidlimp;
+    public String vid_oracao1;
     public String vid_t_1tem;
     public String vid_t_2tem;
     public String vid_m_1tem;
@@ -15,10 +22,10 @@ public class meiosemana_class implements Serializable {
     public String vid_c_2tem;
     public String vid_t_1;
     public String vid_t_2;
-    public String vid_t_leita;
-    public String vid_t_leapt;
-    public String vid_t_leitb;
-    public String vid_t_lebpt;
+    public String vid_t_la;
+    public String vid_t_lapt;
+    public String vid_t_lb;
+    public String vid_t_lbpt;
     public String vid_m_11a;
     public String vid_m_1apt;
     public String vid_m_12a;
@@ -48,6 +55,7 @@ public class meiosemana_class implements Serializable {
     public String vid_c_3;
     public String dirigente;
     public String leitor;
+    public String vid_oracao2;
     public String cong;
     public int especial;
     public String busca;
