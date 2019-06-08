@@ -16,7 +16,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.owtraducoes.metting.bd_access.bd_class.designacao_class;
@@ -47,6 +51,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Date;
+import java.util.List;
 
 public class main extends AppCompatActivity {
 
@@ -110,6 +116,8 @@ public class main extends AppCompatActivity {
     private TextView txt_indicador2;
     private TextView txt_limpeza;
 
+    private Spinner spn_week;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,9 +177,13 @@ public class main extends AppCompatActivity {
         txt_indicador2 = findViewById(R.id.txt_indicador2);
         txt_limpeza    = findViewById(R.id.txt_limpeza);
 
+        spn_week       = findViewById(R.id.spn_week);
+
         criarconexao();
 
         //load_meiosemana("2019-05-27");
+
+        load_semana();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -214,6 +226,25 @@ public class main extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        spn_week.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //if (spn_week.isFocused()) {
+                    load_meiosemana(spn_week.getSelectedItem().toString());
+                //}
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spn_week.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
@@ -231,7 +262,7 @@ public class main extends AppCompatActivity {
         switch (id) {
 
             case R.id.action_week:
-                load_meiosemana("2019-06-03");
+                spn_week.performClick();
                 break;
 
             case R.id.action_settings:
@@ -278,78 +309,89 @@ public class main extends AppCompatActivity {
         //tema_class tema = crud_tema.buscar(semana);
         meiosemana_class meiosemana = crud_reuniao.buscar(semana);
 
-        txt_tema_t1.setText(meiosemana.vid_t_1tem);
-        txt_tema_t2.setText(meiosemana.vid_t_2tem);
-        txt_tema_m1.setText(meiosemana.vid_m_1tem);
-        txt_tema_m2.setText(meiosemana.vid_m_2tem);
-        txt_tema_m3.setText(meiosemana.vid_m_3tem);
-        txt_tema_m4.setText(meiosemana.vid_m_4tem);
+        if (meiosemana.busca != null) {
+
+            txt_tema_t1.setText(meiosemana.vid_t_1tem);
+            txt_tema_t2.setText(meiosemana.vid_t_2tem);
+
+            //designações
+            txt_oracao1.setText(meiosemana.vid_oracao1);
+            txt_nome_t1.setText(meiosemana.vid_t_1);
+            txt_nome_t2.setText(meiosemana.vid_t_2);
+            txt_nome_la.setText(meiosemana.vid_t_la);
+            //txt_nome_lb.setText(meiosemana.vid_m_2tem);
+
+            if (meiosemana.vid_m_1tem.equals("")) {
+                txt_tema_m1.setVisibility(View.GONE);
+                txt_nome_m11a.setVisibility(View.GONE);
+                txt_nome_m12a.setVisibility(View.GONE);
+            } else {
+                txt_tema_m1.setText(load_tema(meiosemana.vid_m_1tem));
+                txt_nome_m11a.setText(meiosemana.vid_m_11a);
+                txt_nome_m12a.setText(meiosemana.vid_m_12a);
+                //txt_nome_m11b.setText(meiosemana.vid_m_11b);
+                //txt_nome_m12b.setText(meiosemana.vid_m_12b);
+            }
+
+            if (meiosemana.vid_m_2tem.equals("")) {
+                txt_tema_m2.setVisibility(View.GONE);
+                txt_nome_m21a.setVisibility(View.GONE);
+                txt_nome_m22a.setVisibility(View.GONE);
+            } else {
+                txt_tema_m2.setText(load_tema(meiosemana.vid_m_2tem));
+                txt_nome_m21a.setText(meiosemana.vid_m_21a);
+                txt_nome_m22a.setText(meiosemana.vid_m_22a);
+                //txt_nome_m21b.setText(meiosemana.vid_m_21b);
+                //txt_nome_m22b.setText(meiosemana.vid_m_22b);
+            }
+
+            if (meiosemana.vid_m_3tem.equals("")) {
+                txt_tema_m3.setVisibility(View.GONE);
+                txt_nome_m31a.setVisibility(View.GONE);
+                txt_nome_m32a.setVisibility(View.GONE);
+            } else {
+                txt_tema_m3.setText(load_tema(meiosemana.vid_m_3tem));
+                txt_nome_m31a.setText(meiosemana.vid_m_31a);
+                txt_nome_m32a.setText(meiosemana.vid_m_32a);
+                //txt_nome_m31b.setText(meiosemana.vid_m_31b);
+                //txt_nome_m32b.setText(meiosemana.vid_m_32b);
+            }
+
+            if (meiosemana.vid_m_4tem.equals("")) {
+                txt_tema_m4.setVisibility(View.GONE);
+                txt_nome_m41a.setVisibility(View.GONE);
+                txt_nome_m42a.setVisibility(View.GONE);
+            } else {
+
+                txt_tema_m4.setVisibility(View.VISIBLE);
+                txt_nome_m41a.setVisibility(View.VISIBLE);
+                txt_nome_m42a.setVisibility(View.VISIBLE);
+
+                txt_tema_m4.setText(load_tema(meiosemana.vid_m_4tem));
+                txt_nome_m41a.setText(meiosemana.vid_m_41a);
+                txt_nome_m42a.setText(meiosemana.vid_m_42a);
+                //txt_nome_m41b.setText(meiosemana.vid_m_41b);
+                //txt_nome_m42b.setText(meiosemana.vid_m_42b);
+            }
 
 
-        //designações
-        txt_oracao1.setText(meiosemana.vid_oracao1);
-        txt_nome_t1.setText(meiosemana.vid_t_1);
-        txt_nome_t2.setText(meiosemana.vid_t_2);
-        txt_nome_la.setText(meiosemana.vid_t_la);
-        //txt_nome_lb.setText(meiosemana.vid_m_2tem);
-
-        if (meiosemana.vid_m_1tem.equals("")) {
-            txt_nome_m11a.setVisibility(View.GONE);
-            txt_nome_m12a.setVisibility(View.GONE);
-        } else {
-            txt_nome_m11a.setText(meiosemana.vid_m_11a);
-            txt_nome_m12a.setText(meiosemana.vid_m_12a);
-            //txt_nome_m11b.setText(meiosemana.vid_m_11b);
-            //txt_nome_m12b.setText(meiosemana.vid_m_12b);
-        }
-
-        if (meiosemana.vid_m_2tem.equals("")) {
-            txt_nome_m31a.setVisibility(View.GONE);
-            txt_nome_m32a.setVisibility(View.GONE);
-        } else {
-            txt_nome_m21a.setText(meiosemana.vid_m_21a);
-            txt_nome_m22a.setText(meiosemana.vid_m_22a);
-            //txt_nome_m21b.setText(meiosemana.vid_m_21b);
-            //txt_nome_m22b.setText(meiosemana.vid_m_22b);
-        }
-
-        if (meiosemana.vid_m_3tem.equals("")) {
-            txt_nome_m31a.setVisibility(View.GONE);
-            txt_nome_m32a.setVisibility(View.GONE);
-        } else {
-            txt_nome_m31a.setText(meiosemana.vid_m_31a);
-            txt_nome_m32a.setText(meiosemana.vid_m_32a);
-            //txt_nome_m31b.setText(meiosemana.vid_m_31b);
-            //txt_nome_m32b.setText(meiosemana.vid_m_32b);
-        }
-
-        if (meiosemana.vid_m_4tem.equals("")) {
-            txt_nome_m41a.setVisibility(View.GONE);
-            txt_nome_m42a.setVisibility(View.GONE);
-        } else {
-            txt_nome_m41a.setText(meiosemana.vid_m_41a);
-            txt_nome_m42a.setText(meiosemana.vid_m_42a);
-            //txt_nome_m41b.setText(meiosemana.vid_m_41b);
-            //txt_nome_m42b.setText(meiosemana.vid_m_42b);
-        }
+            if (meiosemana.vid_c_1 == null) {
+                txt_nome_c1.setVisibility(View.GONE);
+                txt_tema_c1.setVisibility(View.GONE);
+            } else {
+                txt_tema_c1.setText(meiosemana.vid_c_1tem);
+                txt_nome_c1.setText(meiosemana.vid_c_1);
+            }
 
 
+            if (meiosemana.vid_c_2 == null) {
+                txt_nome_c2.setVisibility(View.GONE);
+                txt_tema_c2.setVisibility(View.GONE);
+            } else {
+                txt_tema_c2.setText(meiosemana.vid_c_2tem);
+                txt_nome_c2.setText(meiosemana.vid_c_2);
+            }
 
-        if (meiosemana.vid_c_1.equals("")) {
-            txt_nome_c1.setVisibility(View.GONE);
-            txt_tema_c1.setVisibility(View.GONE);
-        } else {
-            txt_tema_c1.setText(meiosemana.vid_c_1tem);
-            txt_nome_c1.setText(meiosemana.vid_c_1);
-        }
-
-        if (meiosemana.vid_c_2.equals("")) {
-            txt_nome_c2.setVisibility(View.GONE);
-            txt_tema_c2.setVisibility(View.GONE);
-        } else {
-            txt_tema_c2.setText(meiosemana.vid_c_2tem);
-            txt_nome_c2.setText(meiosemana.vid_c_2);
-        }
 
         /*
         if (meiosemana.vid_c_3.equals("")) {
@@ -362,21 +404,62 @@ public class main extends AppCompatActivity {
         */
 
 
+            txt_estudodir.setText(meiosemana.dirigente);
+            txt_estudoleit.setText(meiosemana.leitor);
+            txt_oracao2.setText(meiosemana.vid_oracao2);
 
+            //privilégios
+            //txt_oracao1.setText(meiosemana.vid_oracao1);
+            txt_som.setText(meiosemana.pri_vidsom);
+            txt_video.setText(meiosemana.pri_vidvid);
+            txt_microfone.setText(meiosemana.pri_vidvol);
+            txt_indicador1.setText(meiosemana.pri_vidind1);
+            txt_indicador2.setText(meiosemana.pri_vidind2);
+            txt_limpeza.setText(meiosemana.pri_vidlimp);
+            //txt_oracao2.setText(meiosemana.vid_oracao2);
 
-        txt_estudodir.setText(meiosemana.dirigente);
-        txt_estudoleit.setText(meiosemana.leitor);
-        txt_oracao2.setText(meiosemana.vid_oracao2);
+        }
 
-        //privilégios
-        //txt_oracao1.setText(meiosemana.vid_oracao1);
-        txt_som.setText(meiosemana.pri_vidsom);
-        txt_video.setText(meiosemana.pri_vidvid);
-        txt_microfone.setText(meiosemana.pri_vidvol);
-        txt_indicador1.setText(meiosemana.pri_vidind1);
-        txt_indicador2.setText(meiosemana.pri_vidind1);
-        txt_limpeza.setText(meiosemana.pri_vidlimp);
-        //txt_oracao2.setText(meiosemana.vid_oracao2);
+    }
+
+    private void load_semana() {
+
+        Date data_hoje = new Date();
+
+        List<String> week_list = crud_reuniao.seach_week(data_hoje);
+
+        ArrayAdapter<String> adapter_week = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, week_list);
+
+        spn_week.setAdapter(adapter_week);
+
+    }
+
+    private String load_tema(String tema) {
+
+        switch (tema) {
+
+            case "pc":
+                return "Primeira conversa";
+
+            case "pr":
+                return "Primeira revisita";
+
+            case "sr":
+                return "Segunda revisita";
+
+            case "tc":
+                return "Terceira Revisita";
+
+            case "eb":
+                return "Estudo bíblico";
+
+            case "d":
+                return "Discurso";
+
+            default:
+                return null;
+
+        }
 
     }
 

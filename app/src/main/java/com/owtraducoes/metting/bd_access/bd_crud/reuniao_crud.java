@@ -5,6 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.owtraducoes.metting.bd_access.bd_class.meiosemana_class;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 public class reuniao_crud {
 
     SQLiteDatabase conexao_bd;
@@ -136,11 +143,55 @@ public class reuniao_crud {
             meiosemana.vid_c_3     = resultado.getString(resultado.getColumnIndexOrThrow("VID_C_3"));
             meiosemana.dirigente   = resultado.getString(resultado.getColumnIndexOrThrow("VID_DIR"));
             meiosemana.leitor      = resultado.getString(resultado.getColumnIndexOrThrow("VID_LEIT"));
+
+            meiosemana.busca       = resultado.getString(resultado.getColumnIndexOrThrow("VID_BUSCA"));
             //meiosemana.cong        = resultado.getString(resultado.getColumnIndexOrThrow(""));
 
         }
 
         return meiosemana;
+
+    }
+
+    public List<String> seach_week(Date semana) {
+
+        List<String> week_list = new ArrayList<>();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar dt1 = Calendar.getInstance();
+        Calendar dt2 = Calendar.getInstance();
+
+        dt1.setTime(semana);
+        dt2.setTime(semana);
+
+        dt1.add(Calendar.MONTH, -1);
+        dt2.add(Calendar.MONTH, 1);
+
+        String datainicio = sdf.format(dt1.getTime());
+        String datafinal  = sdf.format(dt2.getTime());
+
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("SELECT VID_BUSCA FROM TEMA WHERE VID_BUSCA BETWEEN ? AND ? ORDER BY VID_BUSCA");
+
+        String[] parametros = new String[2];
+        parametros[0] = datainicio;
+        parametros[1] = datafinal;
+
+        Cursor resultado = conexao_bd.rawQuery(sql.toString(), parametros);
+
+        if (resultado.getCount() > 0) {
+
+            resultado.moveToFirst();
+
+            do {
+                week_list.add(resultado.getString(resultado.getColumnIndexOrThrow("VID_BUSCA")));
+            } while (resultado.moveToNext());
+
+        }
+
+        return week_list;
 
     }
 

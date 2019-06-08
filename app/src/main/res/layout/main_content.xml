@@ -20,6 +20,12 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
+            <Spinner
+                android:id="@+id/spn_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:visibility="invisible" />
+
             <TextView
                 android:id="@+id/txt_oracao1"
                 android:layout_width="match_parent"
@@ -79,7 +85,7 @@
                 android:paddingBottom="10dp">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/txt_reuniao1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TESOUROS DA PALAVRA DE DEUS"
@@ -143,7 +149,7 @@
                 android:paddingBottom="10dp">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/txt_reuniao2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="FAÇA SEU MELHOR NO MINISTÉRIO"
@@ -249,7 +255,7 @@
                 android:paddingBottom="10dp">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/txt_reuniao3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="NOSSA VIDA CRISTÃ"
