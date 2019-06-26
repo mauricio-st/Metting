@@ -11,6 +11,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -22,17 +24,20 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.owtraducoes.metting.bd_access.bd_class.designacao_class;
 import com.owtraducoes.metting.bd_access.bd_class.matriculado_class;
 import com.owtraducoes.metting.bd_access.bd_class.meiosemana_class;
 import com.owtraducoes.metting.bd_access.bd_class.privilegio_class;
+import com.owtraducoes.metting.bd_access.bd_class.semana_class;
 import com.owtraducoes.metting.bd_access.bd_class.tema_class;
 import com.owtraducoes.metting.bd_access.bd_crud.designacao_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.matriculado_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.privilegio_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.reuniao_crud;
 import com.owtraducoes.metting.bd_access.bd_crud.tema_crud;
+import com.owtraducoes.metting.bd_adapter.semana_adapter;
 import com.owtraducoes.metting.bd_estrutura.open_helper;
 
 import org.json.JSONArray;
@@ -65,10 +70,11 @@ public class main extends AppCompatActivity {
     private privilegio_crud crud_privilegio;
     private reuniao_crud crud_reuniao;
 
+    private semana_adapter semana_adapter;
+
     private ProgressDialog dialog;
 
     private LinearLayout ly_main;
-
 
     private TextView txt_tema_t1;
     private TextView txt_tema_t2;
@@ -79,7 +85,6 @@ public class main extends AppCompatActivity {
     private TextView txt_tema_c1;
     private TextView txt_tema_c2;
     private TextView txt_tema_c3;
-
 
     private TextView txt_oracao1;
     private TextView txt_nome_t1;
@@ -117,6 +122,8 @@ public class main extends AppCompatActivity {
     private TextView txt_limpeza;
 
     private Spinner spn_week;
+
+    public RecyclerView lst_semana;
 
 
     @Override
@@ -179,11 +186,18 @@ public class main extends AppCompatActivity {
 
         spn_week       = findViewById(R.id.spn_week);
 
+        lst_semana     = findViewById(R.id.lst_semana);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        lst_semana.setLayoutManager(linearLayoutManager);
+
         criarconexao();
 
         //load_meiosemana("2019-05-27");
 
         load_semana();
+
+        //load_semana2("2019-05-27");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +246,8 @@ public class main extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 //if (spn_week.isFocused()) {
-                    load_meiosemana(spn_week.getSelectedItem().toString());
+                    //load_meiosemana(spn_week.getSelectedItem().toString());
+                    load_semana2(spn_week.getSelectedItem().toString());
                 //}
 
             }
@@ -243,7 +258,7 @@ public class main extends AppCompatActivity {
             }
         });
 
-        spn_week.setVisibility(View.INVISIBLE);
+        //spn_week.setVisibility(View.INVISIBLE);
 
     }
 
@@ -431,6 +446,20 @@ public class main extends AppCompatActivity {
         ArrayAdapter<String> adapter_week = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, week_list);
 
         spn_week.setAdapter(adapter_week);
+
+    }
+
+    private void load_semana2(String semana) {
+
+        List<semana_class> dados = crud_reuniao.search_semana(semana);
+
+        Toast.makeText(this, dados.size()+" registros", Toast.LENGTH_SHORT).show();
+
+        semana_adapter = new semana_adapter(dados);
+
+        lst_semana.setAdapter(semana_adapter);
+
+
 
     }
 
